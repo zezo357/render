@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'animated_example_controller.dart';
@@ -43,7 +44,7 @@ class _AnimatedExampleWidgetState extends State<AnimatedExampleWidget> {
                 },
               ),
             ),
-            if (!Platform.isMacOS)
+            if (kIsWeb || !Platform.isMacOS)
               SizedBox(
                 height: 100,
                 width: 100,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:render/render.dart';
 import 'package:video_player/video_player.dart';
@@ -35,7 +36,7 @@ class ExampleAnimationController extends ChangeNotifier {
 
   static Future<ExampleAnimationController> create(TickerProvider vsync) async {
     VideoPlayerController? videoController;
-    if (!Platform.isMacOS) {
+    if (kIsWeb || !Platform.isMacOS) {
        videoController = VideoPlayerController.network(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
         // 1 min: https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4

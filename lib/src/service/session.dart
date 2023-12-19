@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:ffmpeg_kit_flutter_https_gpl/ffmpeg_kit_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:render/src/service/settings.dart';
@@ -51,8 +52,15 @@ class DetachedRenderSession<T extends RenderFormat, K extends RenderSettings> {
   static Future<DetachedRenderSession<T, K>>
       create<T extends RenderFormat, K extends RenderSettings>(
           T format, K settings, LogLevel logLevel) async {
-    final tempDir = await getTemporaryDirectory();
-    final inputPipe = await FFmpegKitConfig.registerNewFFmpegPipe();
+    String? inputPipe;
+    Directory tempDir;
+    if (!kIsWeb) {
+      tempDir = await getTemporaryDirectory();
+      inputPipe = await FFmpegKitConfig.registerNewFFmpegPipe();
+    } else {
+      tempDir = Directory("");
+      inputPipe = "";
+    }
     final sessionId = const Uuid().v4();
     return DetachedRenderSession<T, K>(
       logLevel: logLevel,
@@ -139,7 +147,7 @@ class RenderSession<T extends RenderFormat, K extends RenderSettings>
   })  : _notifier = notifier,
         startTime = DateTime.now(),
         super(
-        logLevel: detachedSession.logLevel,
+          logLevel: detachedSession.logLevel,
           binding: detachedSession.binding,
           format: detachedSession.format,
           settings: detachedSession.settings,

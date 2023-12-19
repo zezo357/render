@@ -41,7 +41,7 @@ class RenderController {
       DetachedRenderSession<T, K> detachedRenderSession,
       StreamController<RenderNotifier> notifier,
       [WidgetIdentifier? overwriteTask]) {
-    assert(!kIsWeb, "Render does not support Web yet");
+    // assert(!kIsWeb, "Render does not support Web yet");
     assert(
         overwriteTask != null || _globalTask?.key.currentWidget != null,
         "RenderController must have a Render instance "
